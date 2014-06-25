@@ -103,17 +103,16 @@
     AVCaptureConnection * connection = [imageOutput connectionWithMediaType:AVMediaTypeVideo];
     [imageOutput captureStillImageAsynchronouslyFromConnection:connection
                                              completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
-                                                 if (error) {
-                                                     NSLog(@"error:%@",error);
+                                                 if (!error) {
+                                                     NSData * imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+                                                     UIImage * image = [UIImage imageWithData:imageData scale:0];
+                                                     ALAssetsLibrary * library = [ALAssetsLibrary new];
+                                                     [library writeImageToSavedPhotosAlbum:image.CGImage
+                                                                               orientation:[self assetOrientation]
+                                                                           completionBlock:^(NSURL *assetURL, NSError *error) {
+                                                                                captureblock(image,error);
+                                                                           }];
                                                  }
-                                                 NSData * imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-                                                 UIImage * image = [UIImage imageWithData:imageData scale:0];
-                                                 ALAssetsLibrary * library = [ALAssetsLibrary new];
-                                                 [library writeImageToSavedPhotosAlbum:image.CGImage
-                                                                           orientation:[self assetOrientation]
-                                                                       completionBlock:^(NSURL *assetURL, NSError *error) {
-                                                                            captureblock(image,error);
-                                                                       }];
                                              }];
 }
 

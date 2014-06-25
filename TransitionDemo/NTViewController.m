@@ -67,8 +67,12 @@
     [self.captureLayer takePictureWithHandler:^(UIImage *image, NSError *error) {
         
         [captureLayer pause];
-        [captureLayer removeFromSuperlayer];
         captureLayer.contents = nil;
+        [captureLayer removeFromSuperlayer];
+        
+        NTCollectionCaptureCell * captureCell
+        =(NTCollectionCaptureCell*)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        [captureCell resumeRecord];
         
         UIImageView * imageViewTemp = [[UIImageView alloc] initWithImage:image];
         imageViewTemp.frame = self.captureLayer.frame;
