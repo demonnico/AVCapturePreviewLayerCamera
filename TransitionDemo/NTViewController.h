@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface NTViewController : UIViewController
-
+<UICollectionViewDelegate,
+UICollectionViewDataSource,
+UICollectionViewDelegateFlowLayout>
 @end

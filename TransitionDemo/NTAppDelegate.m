@@ -7,13 +7,27 @@
 //
 
 #import "NTAppDelegate.h"
+#import "CLLAccelerometerOrientation.h"
+
+@interface NTAppDelegate()
+@property (nonatomic,strong) CLLAccelerometerOrientation * accelerometer;
+@end
 
 @implementation NTAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    self.accelerometer =
+    [CLLAccelerometerOrientation new];
+    [self.accelerometer start];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenRotate:) name:UIDeviceOrientationDidChangeNotification object:nil];
     return YES;
+}
+
+-(void)screenRotate:(NSNotification*)noti
+{
+    NSLog(@"notification:%@",noti);
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application
