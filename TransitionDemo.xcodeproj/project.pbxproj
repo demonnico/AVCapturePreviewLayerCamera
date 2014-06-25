@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		644C7717195ABB9500073B58 /* NTCaptureLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 644C7716195ABB9500073B58 /* NTCaptureLayer.m */; };
 		646D049D195966ED004DF74A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 646D049C195966ED004DF74A /* Foundation.framework */; };
 		646D049F195966ED004DF74A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 646D049E195966ED004DF74A /* CoreGraphics.framework */; };
 		646D04A1195966ED004DF74A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 646D04A0195966ED004DF74A /* UIKit.framework */; };
@@ -21,6 +22,10 @@
 		646D04BE195966ED004DF74A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 646D04A0195966ED004DF74A /* UIKit.framework */; };
 		646D04C6195966ED004DF74A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 646D04C4195966ED004DF74A /* InfoPlist.strings */; };
 		646D04C8195966ED004DF74A /* TransitionDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 646D04C7195966ED004DF74A /* TransitionDemoTests.m */; };
+		646D04D4195968B1004DF74A /* NTCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 646D04D3195968B1004DF74A /* NTCollectionViewCell.m */; };
+		646D04D71959802B004DF74A /* NTCollectionCaptureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 646D04D61959802B004DF74A /* NTCollectionCaptureCell.m */; };
+		64F785E2195A746400FB1BF4 /* NTImagePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F785E1195A746400FB1BF4 /* NTImagePickerViewController.m */; };
+		64F785E6195AAFC600FB1BF4 /* CLLAccelerometerOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F785E5195AAFC600FB1BF4 /* CLLAccelerometerOrientation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +39,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		644C7715195ABB9500073B58 /* NTCaptureLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTCaptureLayer.h; sourceTree = "<group>"; };
+		644C7716195ABB9500073B58 /* NTCaptureLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTCaptureLayer.m; sourceTree = "<group>"; };
 		646D0499195966ED004DF74A /* TransitionDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TransitionDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		646D049C195966ED004DF74A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		646D049E195966ED004DF74A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -53,6 +60,14 @@
 		646D04C3195966ED004DF74A /* TransitionDemoTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TransitionDemoTests-Info.plist"; sourceTree = "<group>"; };
 		646D04C5195966ED004DF74A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		646D04C7195966ED004DF74A /* TransitionDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TransitionDemoTests.m; sourceTree = "<group>"; };
+		646D04D2195968B1004DF74A /* NTCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTCollectionViewCell.h; sourceTree = "<group>"; };
+		646D04D3195968B1004DF74A /* NTCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTCollectionViewCell.m; sourceTree = "<group>"; };
+		646D04D51959802B004DF74A /* NTCollectionCaptureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTCollectionCaptureCell.h; sourceTree = "<group>"; };
+		646D04D61959802B004DF74A /* NTCollectionCaptureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTCollectionCaptureCell.m; sourceTree = "<group>"; };
+		64F785E0195A746400FB1BF4 /* NTImagePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTImagePickerViewController.h; sourceTree = "<group>"; };
+		64F785E1195A746400FB1BF4 /* NTImagePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTImagePickerViewController.m; sourceTree = "<group>"; };
+		64F785E4195AAFC600FB1BF4 /* CLLAccelerometerOrientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLLAccelerometerOrientation.h; sourceTree = "<group>"; };
+		64F785E5195AAFC600FB1BF4 /* CLLAccelerometerOrientation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLLAccelerometerOrientation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +94,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		644C7714195ABB6C00073B58 /* NTCaptureLayer */ = {
+			isa = PBXGroup;
+			children = (
+				644C7715195ABB9500073B58 /* NTCaptureLayer.h */,
+				644C7716195ABB9500073B58 /* NTCaptureLayer.m */,
+			);
+			name = NTCaptureLayer;
+			sourceTree = "<group>";
+		};
 		646D0490195966ED004DF74A = {
 			isa = PBXGroup;
 			children = (
@@ -112,6 +136,11 @@
 		646D04A2195966ED004DF74A /* TransitionDemo */ = {
 			isa = PBXGroup;
 			children = (
+				64F785E4195AAFC600FB1BF4 /* CLLAccelerometerOrientation.h */,
+				64F785E5195AAFC600FB1BF4 /* CLLAccelerometerOrientation.m */,
+				644C7714195ABB6C00073B58 /* NTCaptureLayer */,
+				64F785E3195A746800FB1BF4 /* NTImagePicker */,
+				646D04D11959689C004DF74A /* NTCollectionViewCell */,
 				646D04AB195966ED004DF74A /* NTAppDelegate.h */,
 				646D04AC195966ED004DF74A /* NTAppDelegate.m */,
 				646D04AE195966ED004DF74A /* Main.storyboard */,
@@ -150,6 +179,26 @@
 				646D04C4195966ED004DF74A /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		646D04D11959689C004DF74A /* NTCollectionViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				646D04D2195968B1004DF74A /* NTCollectionViewCell.h */,
+				646D04D3195968B1004DF74A /* NTCollectionViewCell.m */,
+				646D04D51959802B004DF74A /* NTCollectionCaptureCell.h */,
+				646D04D61959802B004DF74A /* NTCollectionCaptureCell.m */,
+			);
+			name = NTCollectionViewCell;
+			sourceTree = "<group>";
+		};
+		64F785E3195A746800FB1BF4 /* NTImagePicker */ = {
+			isa = PBXGroup;
+			children = (
+				64F785E0195A746400FB1BF4 /* NTImagePickerViewController.h */,
+				64F785E1195A746400FB1BF4 /* NTImagePickerViewController.m */,
+			);
+			name = NTImagePicker;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -250,8 +299,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				64F785E2195A746400FB1BF4 /* NTImagePickerViewController.m in Sources */,
 				646D04B3195966ED004DF74A /* NTViewController.m in Sources */,
 				646D04AD195966ED004DF74A /* NTAppDelegate.m in Sources */,
+				646D04D4195968B1004DF74A /* NTCollectionViewCell.m in Sources */,
+				646D04D71959802B004DF74A /* NTCollectionCaptureCell.m in Sources */,
+				64F785E6195AAFC600FB1BF4 /* CLLAccelerometerOrientation.m in Sources */,
+				644C7717195ABB9500073B58 /* NTCaptureLayer.m in Sources */,
 				646D04A9195966ED004DF74A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -380,6 +434,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TransitionDemo/TransitionDemo-Prefix.pch";
 				INFOPLIST_FILE = "TransitionDemo/TransitionDemo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -393,6 +448,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TransitionDemo/TransitionDemo-Prefix.pch";
 				INFOPLIST_FILE = "TransitionDemo/TransitionDemo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -457,6 +513,7 @@
 				646D04CD195966ED004DF74A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		646D04CE195966ED004DF74A /* Build configuration list for PBXNativeTarget "TransitionDemoTests" */ = {
 			isa = XCConfigurationList;
@@ -465,6 +522,7 @@
 				646D04D0195966ED004DF74A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
