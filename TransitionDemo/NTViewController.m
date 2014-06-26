@@ -34,7 +34,7 @@
     flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     
     UICollectionView * collectionView =
-    [[UICollectionView alloc] initWithFrame:CGRectMake(0, 400, 320, 100)
+    [[UICollectionView alloc] initWithFrame:CGRectMake(0, 300, 320, 100)
                        collectionViewLayout:flowLayout];
     collectionView.delegate = self;
     collectionView.dataSource = self;
@@ -77,56 +77,73 @@
         UIImageView * imageViewTemp = [[UIImageView alloc] initWithImage:image];
         imageViewTemp.frame = self.captureLayer.frame;
         [self.view addSubview:imageViewTemp];
- 
-        CGFloat exactWidth = 320.0;
-        CGFloat exactHeight = image.size.height/image.size.width*exactWidth;
-
+        
+        CGFloat fromWidth = 320;
+        CGFloat fromHeight = image.size.height/image.size.width*fromWidth;
+        
+        CGFloat toHeight = 100.0;
+        CGFloat toWidth  = toHeight*fromWidth/fromHeight;
         CGFloat radius = 0;
-        CGFloat scale  =  100/exactHeight;
-        CGSize offsetSize = CGSizeMake(exactWidth*scale, 100);
+        CGFloat toScale  =  toHeight/fromHeight;
+        CGPoint leftUpperPoint = CGPointMake(60, 300);
+        
         switch (orientation) {
             case UIDeviceOrientationPortraitUpsideDown:
                 radius = M_PI;
                 break;
             case UIDeviceOrientationLandscapeLeft:
-                scale  = 100.0/imageViewTemp.frame.size.width;
+                toScale  = toHeight/fromWidth;
                 radius = -M_PI_2;
-                offsetSize = CGSizeMake(offsetSize.height, offsetSize.width);
+                toWidth  = toHeight*fromHeight/fromWidth;
                 break;
             case UIDeviceOrientationLandscapeRight:
-                scale  = 100.0/imageViewTemp.frame.size.width;
-                offsetSize = CGSizeMake(offsetSize.height, offsetSize.width);
+                toScale  = toHeight/fromWidth;
                 radius = M_PI_2;
+                toWidth  = toHeight*fromHeight/fromWidth;
+                break;
             default:
                 break;
         }
+        CGPoint toPoint = CGPointMake(leftUpperPoint.x+toWidth/2, leftUpperPoint.y+toHeight/2);
         
-        CAAnimation * animation 
+        CGFloat animationDuration = 0.3;
         
-        [UIView animateWithDuration:4.4
-                         animations:^{
-                             //and, it's just second grid view's origin.
-                             CGAffineTransform scaleTrans =CGAffineTransformMakeScale(scale, scale);
-                             CGAffineTransform translateTrans = CGAffineTransformTranslate(scaleTrans, (60+offsetSize.width/2)*scale, (400+offsetSize.height/2)*scale);
-                             imageViewTemp.transform = translateTrans;
-//                             CGAffineTransformRotate(translateTrans, radius);
-                         } completion:^(BOOL finished) {
-                             if (finished) {
-                                 [imageViewTemp removeFromSuperview];
-                             }
-                         }];
+        CABasicAnimation * scaleAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+        [scaleAnimation setDuration:animationDuration];
+        [scaleAnimation setFromValue:@1.0];
+        [scaleAnimation setToValue:@(toScale)];
+        
+        CABasicAnimation * rotateAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
+        [rotateAnimation setDuration:animationDuration];
+        [rotateAnimation setFromValue:@0];
+        [rotateAnimation setToValue:@(radius)];
+
+        CABasicAnimation * translateAnimation = [CABasicAnimation animationWithKeyPath:@"position"];
+        [translateAnimation setDuration:animationDuration];
+        [translateAnimation setFromValue:[NSValue valueWithCGPoint:imageViewTemp.center]];
+        [translateAnimation setToValue:[NSValue valueWithCGPoint:toPoint]];
+
+        CAAnimationGroup * animationGroup = [CAAnimationGroup animation];
+        [animationGroup setAnimations:@[scaleAnimation,translateAnimation,rotateAnimation]];
+        [animationGroup setDuration:animationDuration];
+        animationGroup.fillMode = kCAFillModeForwards;
+        animationGroup.removedOnCompletion = NO;
+        animationGroup.delegate = self;
+        [imageViewTemp.layer addAnimation:animationGroup forKey:@"holyAnimation"];
+
         [self.assets insertObject:[ALAsset new]
-                          atIndex:1];
+                          atIndex:0];
         [self.collectionView performBatchUpdates:^{
             [self.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:0]]];
         }
                                       completion:^(BOOL finished) {
                                           [self.assets removeAllObjects];
-                                          [self reloadCollectionViewWithCompleteBlock:nil];
+                                          [self reloadCollectionViewWithCompleteBlock:^{
+                                              [imageViewTemp removeFromSuperview];
+                                          }];
                                       }];
     }];
 }
-
 
 typedef void(^completeBlock)();
 -(void)reloadCollectionViewWithCompleteBlock:(completeBlock)completeblock
@@ -178,7 +195,7 @@ typedef void(^completeBlock)();
         [NTCaptureLayer layer];
         captureLayer.frame =
 //        CGRectMake(originalPoint.x, originalPoint.y, cell.frame.size.width, cell.frame.size.height);
-        CGRectMake(0, 44+20, 320, 450);//320*4/3-->4:3
+        CGRectMake(0, 44+20, 320, 427);//320*4/3-->4:3
         [self.view.layer addSublayer:captureLayer];
         [captureLayer start];
         
