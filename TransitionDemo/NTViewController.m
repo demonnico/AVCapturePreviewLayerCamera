@@ -81,7 +81,7 @@
         [UIView animateWithDuration:0.4
                          animations:^{
                              CGRect frameCapture =
-                             CGRectMake(60, 400, 73, 100);
+                             CGRectMake(60, 400, 73, 100);//exactly,it's just second grid view's frame.
                              imageViewTemp.frame = frameCapture;
                          } completion:^(BOOL finished) {
                              if (finished) {
