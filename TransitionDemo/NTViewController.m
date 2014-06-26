@@ -64,7 +64,7 @@
 -(void)takePicture
 {
     __weak NTCaptureLayer * captureLayer = self.captureLayer;
-    [self.captureLayer takePictureWithHandler:^(UIImage *image, NSError *error) {
+    [self.captureLayer takePictureWithHandler:^(UIImage *image, UIDeviceOrientation orientation,NSError *error) {
         
         [captureLayer pause];
         captureLayer.contents = nil;
@@ -77,18 +77,44 @@
         UIImageView * imageViewTemp = [[UIImageView alloc] initWithImage:image];
         imageViewTemp.frame = self.captureLayer.frame;
         [self.view addSubview:imageViewTemp];
+ 
+        CGFloat exactWidth = 320.0;
+        CGFloat exactHeight = image.size.height/image.size.width*exactWidth;
+
+        CGFloat radius = 0;
+        CGFloat scale  =  100/exactHeight;
+        CGSize offsetSize = CGSizeMake(exactWidth*scale, 100);
+        switch (orientation) {
+            case UIDeviceOrientationPortraitUpsideDown:
+                radius = M_PI;
+                break;
+            case UIDeviceOrientationLandscapeLeft:
+                scale  = 100.0/imageViewTemp.frame.size.width;
+                radius = -M_PI_2;
+                offsetSize = CGSizeMake(offsetSize.height, offsetSize.width);
+                break;
+            case UIDeviceOrientationLandscapeRight:
+                scale  = 100.0/imageViewTemp.frame.size.width;
+                offsetSize = CGSizeMake(offsetSize.height, offsetSize.width);
+                radius = M_PI_2;
+            default:
+                break;
+        }
         
-        [UIView animateWithDuration:0.4
+        CAAnimation * animation 
+        
+        [UIView animateWithDuration:4.4
                          animations:^{
-                             CGRect frameCapture =
-                             CGRectMake(60, 400, 73, 100);//exactly,it's just second grid view's frame.
-                             imageViewTemp.frame = frameCapture;
+                             //and, it's just second grid view's origin.
+                             CGAffineTransform scaleTrans =CGAffineTransformMakeScale(scale, scale);
+                             CGAffineTransform translateTrans = CGAffineTransformTranslate(scaleTrans, (60+offsetSize.width/2)*scale, (400+offsetSize.height/2)*scale);
+                             imageViewTemp.transform = translateTrans;
+//                             CGAffineTransformRotate(translateTrans, radius);
                          } completion:^(BOOL finished) {
                              if (finished) {
                                  [imageViewTemp removeFromSuperview];
                              }
                          }];
-        
         [self.assets insertObject:[ALAsset new]
                           atIndex:1];
         [self.collectionView performBatchUpdates:^{

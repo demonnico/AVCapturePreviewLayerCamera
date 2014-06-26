@@ -7,7 +7,6 @@
 //
 
 #import "NTCollectionCaptureCell.h"
-#import "CLLAccelerometerOrientation.h"
 #import "NTCaptureLayer.h"
 @import AssetsLibrary;
 @import AVFoundation;

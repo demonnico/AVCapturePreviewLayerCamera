@@ -95,10 +95,14 @@
                                                      NSData * imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
                                                      UIImage * image = [UIImage imageWithData:imageData scale:0];
                                                      ALAssetsLibrary * library = [ALAssetsLibrary new];
+                                                     UIDeviceOrientation  deviceOrientation =
+                                                     [NTOrientationDetector sharedInstance].currentOrientation;
+                                                     ALAssetOrientation orientation =
+                                                     [self assetOrientationWithDeviceOrientation:deviceOrientation];
                                                      [library writeImageToSavedPhotosAlbum:image.CGImage
-                                                                               orientation:[self assetOrientation]
+                                                                               orientation:orientation
                                                                            completionBlock:^(NSURL *assetURL, NSError *error) {
-                                                                                captureblock(image,error);
+                                                                                captureblock(image,deviceOrientation,error);
                                                                                weakSelf.pictureTaking = NO;
                                                                            }];
                                                  }else{
@@ -107,11 +111,10 @@
                                              }];
 }
 
--(ALAssetOrientation)assetOrientation
+-(ALAssetOrientation)assetOrientationWithDeviceOrientation:(UIDeviceOrientation)deviceOrientation
 {
-    UIDeviceOrientation currentOrientation = [NSDetectOrientationManager sharedInstance].currentOrientation;
     ALAssetOrientation assetOrientation = ALAssetOrientationUp;
-    switch (currentOrientation){
+    switch (deviceOrientation){
         case UIDeviceOrientationPortrait:
             return ALAssetOrientationRight;
         case UIDeviceOrientationPortraitUpsideDown:

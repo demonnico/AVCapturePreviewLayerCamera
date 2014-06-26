@@ -54,7 +54,7 @@ static NTOrientationDetector * _instance;
 
 - (void)dealloc
 {
-    [self removeObsever];
+    [self stopDetect];
 }
 
 -(void)callbackWithAccelerometerData:(CMAccelerometerData*)accelerometerData andError:(NSError*)error

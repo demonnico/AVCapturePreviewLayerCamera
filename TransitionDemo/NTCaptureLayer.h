@@ -10,7 +10,7 @@
 @import AVFoundation;
 
 @class AVCaptureVideoPreviewLayer;
-typedef void(^captureBlock)(UIImage *image, NSError *error);
+typedef void(^captureBlock)(UIImage *image,UIDeviceOrientation orientation,NSError *error);
 @interface NTCaptureLayer : AVCaptureVideoPreviewLayer
 -(void)start;
 -(void)pause;
