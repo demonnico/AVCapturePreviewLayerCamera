@@ -18,7 +18,7 @@
 @property (nonatomic,strong) NSMutableArray * assets;
 
 @property (nonatomic,strong) UICollectionView * collectionView;
-@property (nonatomic,strong) NTCaptureLayer * captureLayer;
+@property (nonatomic,weak) NTCaptureLayer * captureLayer;
 @end
 
 @implementation NTViewController
@@ -85,9 +85,9 @@
                              imageViewTemp.frame = frameCapture;
                          }];
         [self.assets insertObject:[ALAsset new]
-                          atIndex:0];
+                          atIndex:1];
         [self.collectionView performBatchUpdates:^{
-            [self.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]];
+            [self.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:0]]];
         }
                                       completion:^(BOOL finished) {
                                           [self.assets removeAllObjects];
@@ -139,7 +139,8 @@ typedef void(^completeBlock)();
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (!indexPath.row) {
+    if (!indexPath.row&&
+        !self.captureLayer) {
         NTCollectionCaptureCell * cell =
         (NTCollectionCaptureCell*)[collectionView cellForItemAtIndexPath:indexPath];
         [cell pauseRecord];
@@ -148,9 +149,15 @@ typedef void(^completeBlock)();
         [NTCaptureLayer layer];
         captureLayer.frame =
 //        CGRectMake(originalPoint.x, originalPoint.y, cell.frame.size.width, cell.frame.size.height);
-        CGRectMake(0, 0, 320, 427);//320*4/3-->4:3
+        CGRectMake(0, 44+20, 320, 450);//320*4/3-->4:3
         [self.view.layer addSublayer:captureLayer];
         [captureLayer start];
+        
+        CABasicAnimation * animation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+        [animation setDuration:0.3];
+        [animation setFromValue:@0.0];
+        [animation setToValue:@1.0];
+        [captureLayer addAnimation:animation forKey:@"alpha_animation"];
         
         self.captureLayer = captureLayer;
     }
