@@ -7,7 +7,7 @@
 //
 
 #import "NTAppDelegate.h"
-#import "NSDetectOrientationManager.h"
+#import "NTOrientationDetector.h"
 
 @interface NTAppDelegate()
 @end
@@ -17,7 +17,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-    [[NSDetectOrientationManager sharedInstance] startObsever];
+    [[NTOrientationDetector sharedInstance] startDetect];
     return YES;
 }
 							

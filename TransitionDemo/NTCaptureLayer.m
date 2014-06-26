@@ -7,7 +7,7 @@
 //
 
 #import "NTCaptureLayer.h"
-#import "NSDetectOrientationManager.h"
+#import "NTOrientationDetector.h"
 @import AssetsLibrary;
 
 @interface NTCaptureLayer()
