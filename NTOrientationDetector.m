@@ -6,14 +6,14 @@
 //  Copyright (c) 2014 Nicholas Tau. All rights reserved.
 //
 
-#import "NSDetectOrientationManager.h"
+#import "NTOrientationDetector.h"
 @import CoreMotion;
-@interface NSDetectOrientationManager()
+@interface NTOrientationDetector()
 @property (nonatomic,strong) CMMotionManager * motionManager;
 @property (nonatomic,readwrite,assign) UIDeviceOrientation currentOrientation;
 @end
 
-@implementation NSDetectOrientationManager
+@implementation NTOrientationDetector
 
 struct CLLAccelerationMatrix {
     UIDeviceOrientation type;
@@ -33,12 +33,12 @@ static const struct CLLAccelerationMatrix orientation_matrix[MATRIX_SIZE] = {
     { UIDeviceOrientationFaceDown, {  0.0f,  0.0f,  1.0f } },
 };
 
-static NSDetectOrientationManager * _instance;
+static NTOrientationDetector * _instance;
 +(instancetype)sharedInstance
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _instance = [NSDetectOrientationManager new];
+        _instance = [NTOrientationDetector new];
     });
     return _instance;
 }
@@ -97,7 +97,7 @@ static NSDetectOrientationManager * _instance;
     return _motionManager;
 }
 
--(void)startObsever
+-(void)startDetect
 {
     if(self.motionManager.isAccelerometerAvailable){
         __weak __typeof(&*self)weakSelf = self;
@@ -109,7 +109,7 @@ static NSDetectOrientationManager * _instance;
     }
 }
 
--(void)removeObsever
+-(void)stopDetect
 {
     if (self.motionManager&&self.motionManager.accelerometerActive) {
         [self.motionManager stopAccelerometerUpdates];

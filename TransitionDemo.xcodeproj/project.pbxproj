@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		643BF2DE195BE867006C97A6 /* NSDetectOrientationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 643BF2DD195BE867006C97A6 /* NSDetectOrientationManager.m */; };
+		643BF2DE195BE867006C97A6 /* NTOrientationDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = 643BF2DD195BE867006C97A6 /* NTOrientationDetector.m */; };
 		644C7717195ABB9500073B58 /* NTCaptureLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 644C7716195ABB9500073B58 /* NTCaptureLayer.m */; };
 		646D049D195966ED004DF74A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 646D049C195966ED004DF74A /* Foundation.framework */; };
 		646D049F195966ED004DF74A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 646D049E195966ED004DF74A /* CoreGraphics.framework */; };
@@ -39,8 +39,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		643BF2DC195BE867006C97A6 /* NSDetectOrientationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSDetectOrientationManager.h; path = ../NSDetectOrientationManager.h; sourceTree = "<group>"; };
-		643BF2DD195BE867006C97A6 /* NSDetectOrientationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSDetectOrientationManager.m; path = ../NSDetectOrientationManager.m; sourceTree = "<group>"; };
+		643BF2DC195BE867006C97A6 /* NTOrientationDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NTOrientationDetector.h; path = ../NTOrientationDetector.h; sourceTree = "<group>"; };
+		643BF2DD195BE867006C97A6 /* NTOrientationDetector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NTOrientationDetector.m; path = ../NTOrientationDetector.m; sourceTree = "<group>"; };
 		644C7715195ABB9500073B58 /* NTCaptureLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTCaptureLayer.h; sourceTree = "<group>"; };
 		644C7716195ABB9500073B58 /* NTCaptureLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTCaptureLayer.m; sourceTree = "<group>"; };
 		646D0499195966ED004DF74A /* TransitionDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TransitionDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,8 +97,8 @@
 		64078FCA195AEEA700362A83 /* AccelerometerOrientation */ = {
 			isa = PBXGroup;
 			children = (
-				643BF2DC195BE867006C97A6 /* NSDetectOrientationManager.h */,
-				643BF2DD195BE867006C97A6 /* NSDetectOrientationManager.m */,
+				643BF2DC195BE867006C97A6 /* NTOrientationDetector.h */,
+				643BF2DD195BE867006C97A6 /* NTOrientationDetector.m */,
 			);
 			name = AccelerometerOrientation;
 			sourceTree = "<group>";
@@ -309,7 +309,7 @@
 			files = (
 				64F785E2195A746400FB1BF4 /* NTImagePickerViewController.m in Sources */,
 				646D04B3195966ED004DF74A /* NTViewController.m in Sources */,
-				643BF2DE195BE867006C97A6 /* NSDetectOrientationManager.m in Sources */,
+				643BF2DE195BE867006C97A6 /* NTOrientationDetector.m in Sources */,
 				646D04AD195966ED004DF74A /* NTAppDelegate.m in Sources */,
 				646D04D4195968B1004DF74A /* NTCollectionViewCell.m in Sources */,
 				646D04D71959802B004DF74A /* NTCollectionCaptureCell.m in Sources */,

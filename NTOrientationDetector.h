@@ -9,10 +9,10 @@
 #import <Foundation/Foundation.h>
 
 extern NSString * const kAccelerometerOrientationDidChangeNotification;
-@interface NSDetectOrientationManager : NSObject
+@interface NTOrientationDetector : NSObject
 
 @property (nonatomic,readonly,assign) UIDeviceOrientation currentOrientation;
 +(instancetype)sharedInstance;
--(void)startObsever;
--(void)removeObsever;
+-(void)startDetect;
+-(void)stopDetect;
 @end
