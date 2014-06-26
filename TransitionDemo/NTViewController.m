@@ -78,12 +78,17 @@
         imageViewTemp.frame = self.captureLayer.frame;
         [self.view addSubview:imageViewTemp];
         
-        [UIView animateWithDuration:.2
+        [UIView animateWithDuration:0.4
                          animations:^{
                              CGRect frameCapture =
                              CGRectMake(60, 400, 73, 100);
                              imageViewTemp.frame = frameCapture;
+                         } completion:^(BOOL finished) {
+                             if (finished) {
+                                 [imageViewTemp removeFromSuperview];
+                             }
                          }];
+        
         [self.assets insertObject:[ALAsset new]
                           atIndex:1];
         [self.collectionView performBatchUpdates:^{
@@ -91,9 +96,7 @@
         }
                                       completion:^(BOOL finished) {
                                           [self.assets removeAllObjects];
-                                          [self reloadCollectionViewWithCompleteBlock:^{
-                                              [imageViewTemp removeFromSuperview];
-                                          }];
+                                          [self reloadCollectionViewWithCompleteBlock:nil];
                                       }];
     }];
 }
