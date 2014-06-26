@@ -12,6 +12,8 @@
 
 @interface NTCaptureLayer()
 @property (nonatomic,assign) UIDeviceOrientation deviceOrientation;
+
+@property (nonatomic,assign) BOOL pictureTaking;
 @end
 
 @implementation NTCaptureLayer
@@ -99,8 +101,13 @@
 
 -(void)takePictureWithHandler:(captureBlock)captureblock
 {
+    if (self.pictureTaking) {
+        return;
+    }
+    self.pictureTaking = YES;
     AVCaptureStillImageOutput * imageOutput = [self session].outputs[0];
     AVCaptureConnection * connection = [imageOutput connectionWithMediaType:AVMediaTypeVideo];
+    __weak __typeof(&*self)weakSelf = self;
     [imageOutput captureStillImageAsynchronouslyFromConnection:connection
                                              completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
                                                  if (!error) {
@@ -111,7 +118,10 @@
                                                                                orientation:[self assetOrientation]
                                                                            completionBlock:^(NSURL *assetURL, NSError *error) {
                                                                                 captureblock(image,error);
+                                                                               weakSelf.pictureTaking = NO;
                                                                            }];
+                                                 }else{
+                                                   weakSelf.pictureTaking = NO;
                                                  }
                                              }];
 }
