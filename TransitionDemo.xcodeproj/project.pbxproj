@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		643BF2DE195BE867006C97A6 /* NSDetectOrientationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 643BF2DD195BE867006C97A6 /* NSDetectOrientationManager.m */; };
 		644C7717195ABB9500073B58 /* NTCaptureLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 644C7716195ABB9500073B58 /* NTCaptureLayer.m */; };
 		646D049D195966ED004DF74A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 646D049C195966ED004DF74A /* Foundation.framework */; };
 		646D049F195966ED004DF74A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 646D049E195966ED004DF74A /* CoreGraphics.framework */; };
@@ -25,7 +26,6 @@
 		646D04D4195968B1004DF74A /* NTCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 646D04D3195968B1004DF74A /* NTCollectionViewCell.m */; };
 		646D04D71959802B004DF74A /* NTCollectionCaptureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 646D04D61959802B004DF74A /* NTCollectionCaptureCell.m */; };
 		64F785E2195A746400FB1BF4 /* NTImagePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F785E1195A746400FB1BF4 /* NTImagePickerViewController.m */; };
-		64F785E6195AAFC600FB1BF4 /* CLLAccelerometerOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F785E5195AAFC600FB1BF4 /* CLLAccelerometerOrientation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +39,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		643BF2DC195BE867006C97A6 /* NSDetectOrientationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSDetectOrientationManager.h; path = ../NSDetectOrientationManager.h; sourceTree = "<group>"; };
+		643BF2DD195BE867006C97A6 /* NSDetectOrientationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSDetectOrientationManager.m; path = ../NSDetectOrientationManager.m; sourceTree = "<group>"; };
 		644C7715195ABB9500073B58 /* NTCaptureLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTCaptureLayer.h; sourceTree = "<group>"; };
 		644C7716195ABB9500073B58 /* NTCaptureLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTCaptureLayer.m; sourceTree = "<group>"; };
 		646D0499195966ED004DF74A /* TransitionDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TransitionDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -66,8 +68,6 @@
 		646D04D61959802B004DF74A /* NTCollectionCaptureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTCollectionCaptureCell.m; sourceTree = "<group>"; };
 		64F785E0195A746400FB1BF4 /* NTImagePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTImagePickerViewController.h; sourceTree = "<group>"; };
 		64F785E1195A746400FB1BF4 /* NTImagePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTImagePickerViewController.m; sourceTree = "<group>"; };
-		64F785E4195AAFC600FB1BF4 /* CLLAccelerometerOrientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLLAccelerometerOrientation.h; sourceTree = "<group>"; };
-		64F785E5195AAFC600FB1BF4 /* CLLAccelerometerOrientation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLLAccelerometerOrientation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +94,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		64078FCA195AEEA700362A83 /* AccelerometerOrientation */ = {
+			isa = PBXGroup;
+			children = (
+				643BF2DC195BE867006C97A6 /* NSDetectOrientationManager.h */,
+				643BF2DD195BE867006C97A6 /* NSDetectOrientationManager.m */,
+			);
+			name = AccelerometerOrientation;
+			sourceTree = "<group>";
+		};
 		644C7714195ABB6C00073B58 /* NTCaptureLayer */ = {
 			isa = PBXGroup;
 			children = (
@@ -136,8 +145,7 @@
 		646D04A2195966ED004DF74A /* TransitionDemo */ = {
 			isa = PBXGroup;
 			children = (
-				64F785E4195AAFC600FB1BF4 /* CLLAccelerometerOrientation.h */,
-				64F785E5195AAFC600FB1BF4 /* CLLAccelerometerOrientation.m */,
+				64078FCA195AEEA700362A83 /* AccelerometerOrientation */,
 				644C7714195ABB6C00073B58 /* NTCaptureLayer */,
 				64F785E3195A746800FB1BF4 /* NTImagePicker */,
 				646D04D11959689C004DF74A /* NTCollectionViewCell */,
@@ -301,10 +309,10 @@
 			files = (
 				64F785E2195A746400FB1BF4 /* NTImagePickerViewController.m in Sources */,
 				646D04B3195966ED004DF74A /* NTViewController.m in Sources */,
+				643BF2DE195BE867006C97A6 /* NSDetectOrientationManager.m in Sources */,
 				646D04AD195966ED004DF74A /* NTAppDelegate.m in Sources */,
 				646D04D4195968B1004DF74A /* NTCollectionViewCell.m in Sources */,
 				646D04D71959802B004DF74A /* NTCollectionCaptureCell.m in Sources */,
-				64F785E6195AAFC600FB1BF4 /* CLLAccelerometerOrientation.m in Sources */,
 				644C7717195ABB9500073B58 /* NTCaptureLayer.m in Sources */,
 				646D04A9195966ED004DF74A /* main.m in Sources */,
 			);
