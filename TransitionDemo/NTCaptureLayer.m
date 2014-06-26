@@ -7,12 +7,10 @@
 //
 
 #import "NTCaptureLayer.h"
-#import "CLLAccelerometerOrientation.h"
+#import "NSDetectOrientationManager.h"
 @import AssetsLibrary;
 
 @interface NTCaptureLayer()
-@property (nonatomic,assign) UIDeviceOrientation deviceOrientation;
-
 @property (nonatomic,assign) BOOL pictureTaking;
 @end
 
@@ -45,12 +43,6 @@
         
         [self setSession:captureSession];
          self.fillMode  = AVLayerVideoGravityResizeAspectFill;
-        
-        self.deviceOrientation = UIDeviceOrientationPortrait;
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(changeOrientation:)
-                                                     name:CLLAccelerometerOrientationDidChangeNotification
-                                                   object:nil];
     }
     return self;
 }
@@ -88,17 +80,6 @@
     [[self session] stopRunning];
 }
 
--(void)changeOrientation:(NSNotification*)notification
-{
-    CLLAccelerometerOrientation *sender = notification.object;
-    UIDeviceOrientation orientation = [sender orientation];
-    if (orientation==UIDeviceOrientationFaceUp||
-        orientation==UIDeviceOrientationFaceDown) {
-        return;
-    }
-    self.deviceOrientation = orientation;
-}
-
 -(void)takePictureWithHandler:(captureBlock)captureblock
 {
     if (self.pictureTaking) {
@@ -128,8 +109,9 @@
 
 -(ALAssetOrientation)assetOrientation
 {
+    UIDeviceOrientation currentOrientation = [NSDetectOrientationManager sharedInstance].currentOrientation;
     ALAssetOrientation assetOrientation = ALAssetOrientationUp;
-    switch (self.deviceOrientation) {
+    switch (currentOrientation){
         case UIDeviceOrientationPortrait:
             return ALAssetOrientationRight;
         case UIDeviceOrientationPortraitUpsideDown:
@@ -138,8 +120,9 @@
             return ALAssetOrientationUp;
         case UIDeviceOrientationLandscapeRight:
             return ALAssetOrientationDown;
-            break;
+            break   ;
         default:
+            return ALAssetOrientationRight;
             break;
     }
     return assetOrientation;
