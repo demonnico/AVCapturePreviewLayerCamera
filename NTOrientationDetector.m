@@ -78,7 +78,7 @@ static NTOrientationDetector * _instance;
                           pow((orientation_matrix[i].acceration.x - acceleration.x), 2)
                           + pow((orientation_matrix[i].acceration.y - acceleration.y), 2)
                           + pow((orientation_matrix[i].acceration.z - acceleration.z), 2)
-                          );//空间亮点距离公式
+                          );//空间两点距离公式
         
         if (diff > tmp) {//求出最短距离（最接近的值）
             diff = tmp;
