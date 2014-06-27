@@ -8,6 +8,7 @@
 
 #import "NTCaptureLayer.h"
 #import "NTOrientationDetector.h"
+#import <ImageIO/ImageIO.h>
 @import AssetsLibrary;
 
 @interface NTCaptureLayer()
@@ -20,7 +21,7 @@
 }
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    NSLog(@"capture dealloc");
 }
 
 - (instancetype)init
@@ -93,42 +94,152 @@
                                              completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
                                                  if (!error) {
                                                      NSData * imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-                                                     UIImage * image = [UIImage imageWithData:imageData scale:0];
                                                      ALAssetsLibrary * library = [ALAssetsLibrary new];
-                                                     UIDeviceOrientation  deviceOrientation =
-                                                     [NTOrientationDetector sharedInstance].currentOrientation;
-                                                     ALAssetOrientation orientation =
-                                                     [self assetOrientationWithDeviceOrientation:deviceOrientation];
-                                                     [library writeImageToSavedPhotosAlbum:image.CGImage
-                                                                               orientation:orientation
-                                                                           completionBlock:^(NSURL *assetURL, NSError *error) {
-                                                                                captureblock(image,deviceOrientation,error);
-                                                                               weakSelf.pictureTaking = NO;
-                                                                           }];
+                                                     [library writeImageDataToSavedPhotosAlbum:imageData
+                                                                                      metadata:[self metaData]
+                                                                               completionBlock:^(NSURL *assetURL, NSError *error) {
+                                                                                   weakSelf.pictureTaking = YES;
+                                                                                   captureblock(error);
+                                                                               }];
                                                  }else{
                                                    weakSelf.pictureTaking = NO;
                                                  }
                                              }];
 }
 
--(ALAssetOrientation)assetOrientationWithDeviceOrientation:(UIDeviceOrientation)deviceOrientation
+-(void)takePictureAndPlayAnimationWithDestination:(animationDestination)destination
+                                    finishHandler:(captureBlock)captureblock
 {
-    ALAssetOrientation assetOrientation = ALAssetOrientationUp;
+    __weak __typeof(&*self)weakSelf = self;
+    [self takePictureWithHandler:^(NSError *error) {
+        [weakSelf pause];
+        [weakSelf playAnimationWithDestination:destination];
+        captureblock(error);
+    }];
+}
+
+-(NSDictionary*)metaData
+{
+    UIDeviceOrientation  deviceOrientation =
+    [NTOrientationDetector sharedInstance].currentOrientation;
+    UIImageOrientation orientation = UIImageOrientationUp;
     switch (deviceOrientation){
         case UIDeviceOrientationPortrait:
-            return ALAssetOrientationRight;
+            orientation = UIImageOrientationRight;
+            break;
         case UIDeviceOrientationPortraitUpsideDown:
-            return ALAssetOrientationLeft;
+            orientation = UIImageOrientationLeft;
+            break;
         case UIDeviceOrientationLandscapeLeft:
-            return ALAssetOrientationUp;
+            orientation =  UIImageOrientationUp;
+            break;
         case UIDeviceOrientationLandscapeRight:
-            return ALAssetOrientationDown;
-            break   ;
+            orientation =  UIImageOrientationDown;
+            break  ;
         default:
-            return ALAssetOrientationRight;
+            orientation = UIImageOrientationRight;
             break;
     }
-    return assetOrientation;
+    NSInteger metaOrientation = [self metaOrientation:orientation];
+    NSDictionary * metaData = [NSDictionary dictionaryWithObject:@(metaOrientation)
+                                                          forKey:(NSString*)kCGImagePropertyOrientation];
+    return metaData;
+}
+
+-(NSInteger)metaOrientation:(UIImageOrientation)orientation
+{
+    int metaOrientation = 1;
+    switch (orientation) {
+        case UIImageOrientationUp:
+            metaOrientation = 1;
+            break;
+            
+        case UIImageOrientationDown:
+            metaOrientation = 3;
+            break;
+            
+        case UIImageOrientationLeft:
+            metaOrientation = 8;
+            break;
+            
+        case UIImageOrientationRight:
+            metaOrientation = 6;
+            break;
+            
+        case UIImageOrientationUpMirrored:
+            metaOrientation = 2;
+            break;
+            
+        case UIImageOrientationDownMirrored:
+            metaOrientation = 4;
+            break;
+            
+        case UIImageOrientationLeftMirrored:
+            metaOrientation = 5;
+            break;
+            
+        case UIImageOrientationRightMirrored:
+            metaOrientation = 7;
+            break;
+    }
+    return metaOrientation;
+}
+
+-(void)playAnimationWithDestination:(animationDestination)destination
+{
+    CGFloat fromWidth = [UIApplication sharedApplication].keyWindow.bounds.size.width;
+    CGFloat fromHeight = self.frame.size.height/self.frame.size.width*fromWidth;
+    
+    CGFloat toHeight = destination.height;
+    CGFloat toWidth  = toHeight*fromWidth/fromHeight;
+    CGFloat radius = 0;
+    CGFloat toScale  =  toHeight/fromHeight;
+    CGPoint leftUpperPoint = destination.topLeft;
+    
+    UIDeviceOrientation orientation = [NTOrientationDetector sharedInstance].currentOrientation;
+    switch (orientation) {
+        case UIDeviceOrientationPortraitUpsideDown:
+            radius = M_PI;
+            break;
+        case UIDeviceOrientationLandscapeLeft:
+            toScale  = toHeight/fromWidth;
+            radius = -M_PI_2;
+            toWidth  = toHeight*fromHeight/fromWidth;
+            break;
+        case UIDeviceOrientationLandscapeRight:
+            toScale  = toHeight/fromWidth;
+            radius = M_PI_2;
+            toWidth  = toHeight*fromHeight/fromWidth;
+            break;
+        default:
+            break;
+    }
+    CGPoint toPoint = CGPointMake(leftUpperPoint.x+toWidth/2, leftUpperPoint.y+toHeight/2);
+    
+    CGFloat animationDuration = 0.5;
+    CABasicAnimation * scaleAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    [scaleAnimation setDuration:animationDuration];
+    [scaleAnimation setFromValue:@1.0];
+    [scaleAnimation setToValue:@(toScale)];
+    
+    CABasicAnimation * rotateAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
+    [rotateAnimation setDuration:animationDuration];
+    [rotateAnimation setFromValue:@0];
+    [rotateAnimation setToValue:@(radius)];
+    
+    CABasicAnimation * translateAnimation = [CABasicAnimation animationWithKeyPath:@"position"];
+    [translateAnimation setDuration:animationDuration];
+    [translateAnimation setFromValue:[NSValue valueWithCGPoint:self.position]];
+    [translateAnimation setToValue:[NSValue valueWithCGPoint:toPoint]];
+    
+    CAAnimationGroup * animationGroup = [CAAnimationGroup animation];
+    [animationGroup setAnimations:@[scaleAnimation,translateAnimation,rotateAnimation]];
+    [animationGroup setDuration:animationDuration];
+    animationGroup.fillMode = kCAFillModeForwards;
+    animationGroup.removedOnCompletion = NO;
+    animationGroup.delegate = self.animationDelegate;
+    
+    [self addAnimation:animationGroup forKey:@"holyAnimation"];
 }
 
 @end

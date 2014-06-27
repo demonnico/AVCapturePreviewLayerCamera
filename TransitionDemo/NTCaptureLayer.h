@@ -8,12 +8,26 @@
 
 #import <QuartzCore/QuartzCore.h>
 @import AVFoundation;
-
+@class NTCaptureLayer;
 @class AVCaptureVideoPreviewLayer;
-typedef void(^captureBlock)(UIImage *image,UIDeviceOrientation orientation,NSError *error);
+
+struct animationDestination {
+    CGPoint topLeft;
+    CGFloat height;
+};
+typedef struct animationDestination animationDestination;
+
+typedef void(^captureBlock)(NSError *error);
 @interface NTCaptureLayer : AVCaptureVideoPreviewLayer
+/**
+ *  please implement -(void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag method,
+ *  and remove previewLayer in that place.
+ */
+@property (nonatomic,weak) id animationDelegate;
+
 -(void)start;
 -(void)pause;
 -(void)switchCamera;
--(void)takePictureWithHandler:(captureBlock)captureblock;
+-(void)takePictureAndPlayAnimationWithDestination:(animationDestination)destination
+                                    finishHandler:(captureBlock)captureblock;
 @end
