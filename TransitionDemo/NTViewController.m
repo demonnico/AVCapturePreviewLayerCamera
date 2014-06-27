@@ -11,6 +11,7 @@
 #import "NTCollectionCaptureCell.h"
 #import "NTImagePickerViewController.h"
 #import "NTCaptureLayer.h"
+#import "NTCaptureAnimationView.h"
 
 @import AssetsLibrary;
 @interface NTViewController ()
@@ -61,87 +62,37 @@
                                     action:@selector(takePicture)];
 }
 
+-(void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
+{
+    if (flag) {
+        self.captureLayer.contents = nil;
+        [self.captureLayer removeFromSuperlayer];
+    }
+}
+
 -(void)takePicture
 {
-    __weak NTCaptureLayer * captureLayer = self.captureLayer;
-    [self.captureLayer takePictureWithHandler:^(UIImage *image, UIDeviceOrientation orientation,NSError *error) {
-        
-        [captureLayer pause];
-        captureLayer.contents = nil;
-        [captureLayer removeFromSuperlayer];
-        
-        NTCollectionCaptureCell * captureCell
-        =(NTCollectionCaptureCell*)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-        [captureCell resumeRecord];
-        
-        UIImageView * imageViewTemp = [[UIImageView alloc] initWithImage:image];
-        imageViewTemp.frame = self.captureLayer.frame;
-        [self.view addSubview:imageViewTemp];
-        
-        CGFloat fromWidth = 320;
-        CGFloat fromHeight = image.size.height/image.size.width*fromWidth;
-        
-        CGFloat toHeight = 100.0;
-        CGFloat toWidth  = toHeight*fromWidth/fromHeight;
-        CGFloat radius = 0;
-        CGFloat toScale  =  toHeight/fromHeight;
-        CGPoint leftUpperPoint = CGPointMake(60, 300);
-        
-        switch (orientation) {
-            case UIDeviceOrientationPortraitUpsideDown:
-                radius = M_PI;
-                break;
-            case UIDeviceOrientationLandscapeLeft:
-                toScale  = toHeight/fromWidth;
-                radius = -M_PI_2;
-                toWidth  = toHeight*fromHeight/fromWidth;
-                break;
-            case UIDeviceOrientationLandscapeRight:
-                toScale  = toHeight/fromWidth;
-                radius = M_PI_2;
-                toWidth  = toHeight*fromHeight/fromWidth;
-                break;
-            default:
-                break;
+    __weak __typeof(&*self)weakSelf = self;
+    animationDestination destination;
+    destination.height = 100.0;
+    destination.topLeft = CGPointMake(60, 300);
+    [self.captureLayer takePictureAndPlayAnimationWithDestination:destination
+                                                    finishHandler:^(NSError *error) {
+        if (!error) {
+            [weakSelf.assets insertObject:[ALAsset new]
+                                  atIndex:0];
+            [weakSelf.collectionView performBatchUpdates:^{
+                [weakSelf.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:0]]];
+            }
+                                              completion:^(BOOL finished) {
+                                                  [self.assets removeAllObjects];
+                                                  [self reloadCollectionViewWithCompleteBlock:^{
+                                                      NTCollectionCaptureCell * captureCell
+                                                      =(NTCollectionCaptureCell*)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+                                                      [captureCell resumeRecord];
+                                                  }];
+                                              }];
         }
-        CGPoint toPoint = CGPointMake(leftUpperPoint.x+toWidth/2, leftUpperPoint.y+toHeight/2);
-        
-        CGFloat animationDuration = 0.3;
-        
-        CABasicAnimation * scaleAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
-        [scaleAnimation setDuration:animationDuration];
-        [scaleAnimation setFromValue:@1.0];
-        [scaleAnimation setToValue:@(toScale)];
-        
-        CABasicAnimation * rotateAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
-        [rotateAnimation setDuration:animationDuration];
-        [rotateAnimation setFromValue:@0];
-        [rotateAnimation setToValue:@(radius)];
-
-        CABasicAnimation * translateAnimation = [CABasicAnimation animationWithKeyPath:@"position"];
-        [translateAnimation setDuration:animationDuration];
-        [translateAnimation setFromValue:[NSValue valueWithCGPoint:imageViewTemp.center]];
-        [translateAnimation setToValue:[NSValue valueWithCGPoint:toPoint]];
-
-        CAAnimationGroup * animationGroup = [CAAnimationGroup animation];
-        [animationGroup setAnimations:@[scaleAnimation,translateAnimation,rotateAnimation]];
-        [animationGroup setDuration:animationDuration];
-        animationGroup.fillMode = kCAFillModeForwards;
-        animationGroup.removedOnCompletion = NO;
-        animationGroup.delegate = self;
-        [imageViewTemp.layer addAnimation:animationGroup forKey:@"holyAnimation"];
-
-        [self.assets insertObject:[ALAsset new]
-                          atIndex:0];
-        [self.collectionView performBatchUpdates:^{
-            [self.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:0]]];
-        }
-                                      completion:^(BOOL finished) {
-                                          [self.assets removeAllObjects];
-                                          [self reloadCollectionViewWithCompleteBlock:^{
-                                              [imageViewTemp removeFromSuperview];
-                                          }];
-                                      }];
     }];
 }
 
@@ -197,6 +148,7 @@ typedef void(^completeBlock)();
 //        CGRectMake(originalPoint.x, originalPoint.y, cell.frame.size.width, cell.frame.size.height);
         CGRectMake(0, 44+20, 320, 427);//320*4/3-->4:3
         [self.view.layer addSublayer:captureLayer];
+        captureLayer.animationDelegate = self;
         [captureLayer start];
         
         CABasicAnimation * animation = [CABasicAnimation animationWithKeyPath:@"opacity"];
