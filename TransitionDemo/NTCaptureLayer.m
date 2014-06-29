@@ -94,6 +94,10 @@
                                              completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
                                                  if (!error) {
                                                      NSData * imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+                                                     //if you wanna know something in default metadata, uncomment these lines.
+//                                                     NSDictionary * dic =
+//                                                     (__bridge NSDictionary*)CMCopyDictionaryOfAttachments(NULL, imageDataSampleBuffer, kCMAttachmentMode_ShouldPropagate);
+//                                                     NSLog(@"default metadata:%@",dic);
                                                      ALAssetsLibrary * library = [ALAssetsLibrary new];
                                                      [library writeImageDataToSavedPhotosAlbum:imageData
                                                                                       metadata:[self metaData]
