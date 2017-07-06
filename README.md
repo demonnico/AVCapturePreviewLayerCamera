@@ -1,10 +1,12 @@
 AVCapturePreviewLayerCamera
 ===========================
 
-##What's This?
+## What's This?
+
 This is a demo project to show you how to create a custom camera with AVCaptureVideoPreviewLayer. If you wanna know something in detail, just clone and run it (just with devices but not simulator).
 
-##Creator
+## Creator
+
 [Nicholas Tau](http://www.taofengping.com) ([@demonNico](https://twitter.com/demonnico))
 
 ## License
